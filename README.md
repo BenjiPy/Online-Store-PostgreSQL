@@ -18,8 +18,8 @@ This section provides all the commands used to set up the `online_store` Postgre
 ## List of Commands Executed for Database Setup
 
 ### 1. Connect to PostgreSQL as the `postgres` user
-```bash
-> psql -U postgres (password 0667)
+```msdos
+psql -U postgres (password 0667)
 ```
 ### 2. Create database and connect (always as the `postgres` user)
 ```sql
@@ -32,7 +32,7 @@ You are now connected to database "online_store" as user "postgres".
 ```
 Explanation: Switches the current session to the online_store database to execute subsequent commands within this database.
 ### 3. Create tables (always as the `postgres` user)
-__Customers__:
+##### __Customers__:
 ```sql
 CREATE TABLE Customers (
     CustomerID SERIAL PRIMARY KEY,
@@ -54,7 +54,7 @@ CREATE TABLE
 ```
 Explanation: Defines the `Customers` table with customer information. The `CustomerID` is an auto-incrementing primary key. The `Email` field is unique and cannot be null.
 
-__Manufacturers__:
+##### __Manufacturers__:
 ```sql
 CREATE TABLE Manufacturers (
     ManufacturerID SERIAL PRIMARY KEY,
@@ -70,7 +70,7 @@ CREATE TABLE
 ```
 Explanation: Defines the `Manufacturers` table to store manufacturer details. `ManufacturerID` is the primary key.
 
-__Categories__:
+##### __Categories__:
 ```sql
 CREATE TABLE Categories (
     CategoryID SERIAL PRIMARY KEY,
@@ -84,7 +84,7 @@ CREATE TABLE
 ```
 Explanation: Defines the `Categories` table for product categorization. Each category has a unique `CategoryID`.
 
-__Products__:
+##### __Products__:
 ```sql
 CREATE TABLE Products (
     ProductID SERIAL PRIMARY KEY,
@@ -105,7 +105,7 @@ CREATE TABLE
 ```
 Explanation: Defines the `Products` table, storing product details. Foreign keys `CategoryID` and `ManufacturerID` link to the `Categories` and `Manufacturers` tables, respectively, enforcing referential integrity.
 
-__Orders__:
+##### __Orders__:
 ```sql
 CREATE TABLE Orders (
     OrderID SERIAL PRIMARY KEY,
@@ -124,7 +124,7 @@ CREATE TABLE
 ```
 Explanation: Defines the `Orders` table to record customer orders. Each order references a customer via `CustomerID`.
 
-__OrderItems__:
+##### __OrderItems__:
 ```sql
 CREATE TABLE OrderItems (
     OrderItemID SERIAL PRIMARY KEY,
@@ -142,7 +142,7 @@ CREATE TABLE
 ```
 Explanation: Defines the `OrderItems` table, detailing the products included in each order. Links to `Orders` and `Products` tables through foreign keys.
 
-__Payments__:
+##### __Payments__:
 ```sql
 CREATE TABLE Payments (
     PaymentID SERIAL PRIMARY KEY,
@@ -162,7 +162,7 @@ Explanation: Defines the `Payments` table to record payment information for orde
 
 ### 4. Let's insert some data to the tables (always as the `postgres` user)
 
-__Insert data into the `Customers` table__:
+##### __Insert data into the `Customers` table__:
 ```sql
 INSERT INTO Customers (FirstName, LastName, Email, PhoneNumber, Address, City, State, PostalCode, Country)
   VALUES
@@ -175,7 +175,7 @@ Output :
 INSERT 0 3
 ```
 
-__Insert data into the `Manufacturers` table__:
+##### __Insert data into the `Manufacturers` table__:
 ```sql
 INSERT INTO Manufacturers (Name, ContactEmail, ContactPhone, Address)
   VALUES
@@ -187,7 +187,7 @@ Output :
 INSERT 0 2
 ```
 
-__Insert data into the `Categories` table__:
+##### __Insert data into the `Categories` table__:
 ```sql
 INSERT INTO Categories (CategoryName, Description)
   VALUES
@@ -199,7 +199,7 @@ Output :
 INSERT 0 2
 ```
 
-__Insert data into the `Products` table__:
+##### __Insert data into the `Products` table__:
 ```sql
 INSERT INTO Products (ProductName, Description, Price, StockQuantity, CategoryID, ManufacturerID)
   VALUES
@@ -213,7 +213,7 @@ Output :
 INSERT 0 4
 ```
 
-__Insert data into the `Orders` table__:
+##### __Insert data into the `Orders` table__:
 ```sql
 INSERT INTO Orders (ShippingAddress, BillingAddress, TotalAmount, OrderStatus, CustomerID)
   VALUES
@@ -226,7 +226,7 @@ Output :
 INSERT 0 3
 ```
 
-__Insert data into the `OrderItems` table__:
+##### __Insert data into the `OrderItems` table__:
 ```sql
 INSERT INTO OrderItems (Quantity, UnitPrice, OrderID, ProductID)
   VALUES
@@ -240,7 +240,7 @@ Output :
 INSERT 0 4
 ```
 
-__Insert data into the `Payments` table__:
+##### __Insert data into the `Payments` table__:
 ```sql
 INSERT INTO Payments (PaymentMethod, Amount, TransactionID, OrderID)
   VALUES
@@ -348,7 +348,7 @@ INSERT 0 3
 
 ### 6. Some simples queries
 
-__1 Retrieve all orders for customer 'Benjamin Cuvilliez':__
+##### __1 Retrieve all orders for customer 'Benjamin Cuvilliez':__
 ```sql
 SELECT o.OrderID, o.OrderDate, o.TotalAmount, o.OrderStatus
   FROM Orders o
@@ -365,7 +365,7 @@ Output:
 Screenshot:
 !["screen1"](https://imgur.com/zWZIn3V.png "image1")
 
-__2 List all products manufactured by 'TechCorp':__
+##### __2 List all products manufactured by 'TechCorp':__
 ```sql
 SELECT p.ProductName, p.Description, p.Price, p.StockQuantity
   FROM Products p
@@ -383,7 +383,7 @@ Output:
 Screenshot:
 !["screen1"](https://imgur.com/bJ12MsO.png "image1")
 
-__3 Calculate total sales per product:__
+##### __3 Calculate total sales per product:__
 ```sql
 SELECT p.ProductName, SUM(oi.Quantity * oi.UnitPrice) AS TotalSales
   FROM OrderItems oi
@@ -402,7 +402,7 @@ Output:
 Screenshot:
 !["screen1"](https://imgur.com/lCkn0p3.png "image1")
 
-__4 Get order details including items for Order ID 3:__
+##### __4 Get order details including items for Order ID 3:__
 ```sql
 SELECT o.OrderID, o.OrderDate, c.FirstName || ' ' || c.LastName AS CustomerName,
          p.ProductName, oi.Quantity, oi.UnitPrice
@@ -423,7 +423,7 @@ Output:
 Screenshot:
 !["screen1"](https://imgur.com/0TNudnJ.png "image1")
 
-__5 List customers and the number of orders they've placed::__
+##### __5 List customers and the number of orders they've placed::__
 ```sql
 SELECT c.FirstName || ' ' || c.LastName AS CustomerName, COUNT(o.OrderID) AS NumberOfOrders
   FROM Customers c
